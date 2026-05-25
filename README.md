@@ -2,6 +2,38 @@
 
 Simple k6 load test for OTUS
 
+## ya.ru + www.ru (два параллельных сценария)
+
+Скрипт: `scenarios/ya-www.js`
+
+| Сценарий | URL | 100% профиля | 120% профиля |
+|----------|-----|--------------|--------------|
+| `ya_ru` | https://ya.ru | 60 req/min | 72 req/min |
+| `www_ru` | http://www.ru | 120 req/min | 144 req/min |
+
+Профиль нагрузки (оба сценария одновременно, 30 минут):
+
+1. 5 мин — разгон до 100%
+2. 10 мин — равномерная нагрузка 100%
+3. 5 мин — разгон до 120%
+4. 10 мин — равномерная нагрузка 120%
+
+### InfluxDB + Grafana
+
+```shell
+docker compose up -d
+```
+
+Запуск теста с выгрузкой метрик в InfluxDB:
+
+```shell
+k6 run --out influxdb=http://127.0.0.1:8086/k6 scenarios/ya-www.js
+```
+
+**Grafana:** [http://localhost:3000](http://localhost:3000) (логин `admin` / пароль `admin`)
+
+Дашборд k6 подключается автоматически (InfluxDB datasource `InfluxDB-k6`, dashboard *k6 Load Testing Results*).
+
 ```shell
 k6 run sample.js
 ```
