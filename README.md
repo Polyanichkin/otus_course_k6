@@ -48,6 +48,20 @@ For debug
 k6 run --http-debug="full" sample.js
 ```
 
+## WebTours (эталон :1080 / регресс :1090)
+
+Скрипт нагрузки: `webtours-load.js` (сценарий из `scenarios/webtours.js`).
+
+Профиль: 3000 бизнес-итераций/ч (50/мин), SLA p95 &lt; 3 с на каждое HTTP-действие.
+
+```shell
+k6 run -e BASE_URL=http://webtours.load-test.ru:1080 -e STEADY_DURATION=25m webtours-load.js
+k6 run -e BASE_URL=http://webtours.load-test.ru:1090 -e STEADY_DURATION=25m webtours-load.js
+```
+
+Заключение по НТ: `webtours_lt_report.md`.  
+Мониторинг: http://webtours.load-test.ru:3000/d/WebTours/webtours?orgId=1
+
 ## Docker
 
 
